@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git ''
+                git 'https://github.com/SnehalMadgude/webapp.git'
             }
         }
 		stage('build') {
