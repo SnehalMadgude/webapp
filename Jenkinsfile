@@ -20,7 +20,7 @@ pipeline {
 	stage('deploy') {
             steps {
                 sh 'docker build -t my-tomcat .'
-		sh 'docker run -itd -p 8050:8080 --name webapss my-tomcat'
+		sh 'docker run -itd -p 8050:8080 my-tomcat'
 		}
 	}
     }
