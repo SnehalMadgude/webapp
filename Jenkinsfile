@@ -24,7 +24,7 @@ sh 'which httpd'
 stage ('Initialise') {
 steps {
 
-sh 'service start httpd'
+sh 'service httpd start'
 }
 
 }
@@ -33,7 +33,7 @@ stage ('Status') {
 
 steps {
 
-sh 'service status httpd'
+sh 'service httpd status'
 }
 }
 }
