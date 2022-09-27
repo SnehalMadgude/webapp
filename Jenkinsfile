@@ -1,27 +1,38 @@
 pipeline {
-    agent {
-		node {
-			label "built-in"
+agent any
 
-		}
-	}
+stages {
+stage ('Install Stage') {
 
-    stages {
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/SnehalMadgude/webapp.git'
-            }
-        }
-		stage('build') {
-            steps {
-                sh 'mvn clean install'			
-            }
-        }
-	stage('deploy') {
-            steps {
-                sh 'docker build -t my-tomcat .'
-		sh 'docker run -itd -p 8050:8080 my-tomcat'
-		}
-	}
-    }
+steps {
+
+sh 'yum install httpd'
 }
+
+}
+
+stage ('verify stage') {
+
+steps {
+
+sh 'which httpd'
+}
+
+}
+
+
+stage ('Initialise') {
+steps {
+
+sh 'service start httpd'
+}
+
+}
+
+stage ('Status') {
+
+steps {
+
+sh 'service status httpd'
+}
+
