@@ -6,7 +6,7 @@ stage ('Install Stage') {
 
 steps {
 
-sh 'yum install httpd'
+sh 'yum install httpd -y'
 }
 
 }
