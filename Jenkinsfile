@@ -2,6 +2,8 @@ pipeline {
     agent {
 		node {
 			label "built-in"
+			customWorkspace "/mnt"
+			
 
 		}
 	}
@@ -20,7 +22,7 @@ pipeline {
 	stage('deploy') {
             steps {
                 sh 'docker build -t my-tomcat .'
-		sh 'docker run -itd -p 8050:8080 my-tomcat'
+		sh 'docker run -itdv /mnt/target:/usr/local/tomcat/webapps -p 8050:8080 my-tomcat'
 		}
 	}
     }
