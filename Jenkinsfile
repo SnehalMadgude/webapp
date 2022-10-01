@@ -1,42 +1,29 @@
 pipeline {
-agent any
+    agent {
+		node {
+			label "built-in"
 
-stages {
-stage ('Compile Stage') {
+		}
+	}
 
-steps {
-
-sh 'mvn clean compile'
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/SnehalMadgude/webapp.git'
+            }
+        }
+		stage('build') {
+            steps {
+                sh 'mvn clean install'			
+            }
+        }
+	stage('deploy') {
+            steps {
+                sh 'docker build -t my-tomcat .'
+		sh 'docker run -itd -p 8050:8080 my-tomcat'
+		}
+	}
+    }
 }
 
-}
-
-stage ('Testing Stage') {
-
-steps {
-
-sh 'mvn test'
-}
-
-}
-
-
-stage ('Install Stage') {
-steps {
-
-sh 'mvn install'
-}
-
-}
-
-stage ('Echo Branch') {
-
-steps {
-
-echo "This is dev branch"
-}
-
-}
-}
-}
 
