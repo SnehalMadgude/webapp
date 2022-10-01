@@ -2,39 +2,40 @@ pipeline {
 agent any
 
 stages {
+stage ('Compile Stage') {
+
+steps {
+
+sh 'mvn clean compile'
+}
+
+}
+
+stage ('Testing Stage') {
+
+steps {
+
+sh 'mvn test'
+}
+
+}
+
+
 stage ('Install Stage') {
+steps {
+
+sh 'mvn install'
+}
+
+}
+
+stage ('Echo Branch') {
 
 steps {
 
-sh 'yum install httpd -y'
+echo "This is dev branch"
 }
 
-}
-
-stage ('verify stage') {
-
-steps {
-
-sh 'which httpd'
-}
-
-}
-
-
-stage ('Initialise') {
-steps {
-
-sh 'service httpd start'
-}
-
-}
-
-stage ('Status') {
-
-steps {
-
-sh 'service httpd status'
-}
 }
 }
 }
