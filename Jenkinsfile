@@ -1,31 +1,52 @@
 pipeline {
     agent {
-		node {
-			label "built-in"
-			customWorkspace "/mnt"
-			
-
+        node {
+            label 'built-in'
+			customWorkspace '/mnt'
 		}
 	}
-
     stages {
-        stage('Checkout') {
+        stage ('Compile Stage') {
+
             steps {
-                git 'https://github.com/SnehalMadgude/webapp.git'
-            }
+                
+                    sh 'mvn clean compile'
+                }
         }
-		stage('build') {
+
+        stage ('Testing Stage') {
+
             steps {
-                sh 'mvn install'			
-            }
+                
+                    sh 'mvn test'
+                }
         }
-	stage('deploy') {
+
+        stage ('Install Stage') {
             steps {
-                sh 'docker build -t my-tomcat .'
-		sh 'docker run -itdv /mnt/target:/usr/local/tomcat/webapps -p 8050:8080 my-tomcat'
+                
+                    sh 'mvn install'
+}
+            }
+			
+		stage ('start docker') {
+			steps {
+				sh 'systemctl start docker'
+			}
 		}
-	}
+		
+		stage ('build dockerimage') {
+			steps {
+				sh 'docker build -t tomcat:2 .'
+				}
+				}
+		stage ('create container and run') {
+			steps {
+				sh 'docker run -itdv /mnt/target:/usr/local/tomcat/webapps -p 90:8080  tomcat:2'
+			}
+		}				
     }
+	
 }
 
 
